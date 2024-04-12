@@ -1,25 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
+import Home from './Componant/Home/Home';
+import Header from './Componant/Header/Header';
+import Register from './Componant/Register/Register';
+import Login from './Componant/Login/Login';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './Componant/Layout/Layout';
+import Notfound from './Componant/Notfound/Notfound';
+import {RecoilRoot} from "recoil"
+import ProtectedRoute from "./Componant/ProtectedRoute/ProtectedRoute"
+import ProtectedRouteHome from './Componant/ProtectedRouteHome/ProtectedRouteHome';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  let routers  = createBrowserRouter([
+    {path: "" , element: <Layout/> , children:[
+      {index :true , element :<ProtectedRouteHome><Register/></ProtectedRouteHome> },
+      {path : "login" , element : <ProtectedRouteHome><Login/></ProtectedRouteHome>},
+      {path : "note-app" , element : <ProtectedRoute><Home/></ProtectedRoute>},
+      {path : "*" , element:<ProtectedRoute><Notfound/></ProtectedRoute>}
+    ]}
+  ])
+
+  return <>
+ 
+<RecoilRoot>
+<RouterProvider router={routers}></RouterProvider>
+</RecoilRoot>
+ 
+  </>
+
+
 }
 
 export default App;
